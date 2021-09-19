@@ -15,7 +15,7 @@ function checksExistsUserAccount(request, response, next) {
   const userAlreadyExist = users.find(user => user.username === username);
 
   if (!userAlreadyExist) {
-    return response.status(400).json({ error: 'User does not  already exist!' });
+    return response.status(404).json({ error: 'User does not  already exist!' });
   }
 
   request.user = userAlreadyExist;
@@ -26,7 +26,7 @@ function checksExistsUserAccount(request, response, next) {
 function checksCreateTodosUserAvailability(request, response, next) {
   const { user } = request;
 
-  if (!user.pro && user.todos.length <= 10) {
+  if (!user.pro && user.todos.length >= 10) {
     return response.status(403).json({ error: 'you need to migrate to a pro plan' });
   }
 
